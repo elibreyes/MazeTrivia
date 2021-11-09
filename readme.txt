@@ -1,2 +1,1 @@
-One issue I came across was time. It was difficult to put a lot of time in during this iteration because registration is open and before I can register for TCSS 499, 
-I have to demonstrate my ability in logistic regression/modeling. - Ryan Trepanier
+One issue we came across was time. It was difficult to juggle other lectures, their respective HW assignments, work, and putting enough time into coming up with user stories and to do the necessary planning for implementation.
