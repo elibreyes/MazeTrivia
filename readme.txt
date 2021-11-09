@@ -1,0 +1,1 @@
+One issue we came across was time. It was difficult to juggle other lectures, their respective HW assignments, work, and putting enough time into coming up with user stories and to do the necessary planning for implementation.
