@@ -12,12 +12,12 @@ public class Room {
     } 
 
     //standard getter method
-    protected int getStatus(){
+    int getStatus(){
         return myStatus;
     }
     
     // 1 represents opened room and 2 represents locked room
-    protected void changeStatus(boolean pass){
+    void changeStatus(boolean pass){
         if(pass){
             myStatus = 1;
         }
@@ -30,13 +30,13 @@ public class Room {
     public String toString(){
         String result;
         if(getStatus() == 0){
-            result = "*";
+            result = "* ";
         }
         else if (getStatus() == 1){
-            result = "o";
+            result = "o ";
         }
         else{
-            result = "x";
+            result = "x ";
         }
         return result;
     }

@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class Maze {
 
-//    private Point myEntrance;
     private Point myExit;
     private Point myPosition;
     private Point myChoice;
@@ -13,46 +12,56 @@ public class Maze {
     public Maze() {
         myMaze = new Room[4][4];
         buildMaze();
-//        myEntrance = new Point(0,0);
         myPosition = new Point(0,0);
         myExit = new Point(3,3);
+        myChoice = new Point(0,0);
     }
 
-    //is this going to be necessary if we already have something to check the status of the room in the room class
-//    private boolean checkRoom(){
-//        boolean roomStatus = true;
-//        if(myMaze[myChoice.x][myChoice.y].getStatus() == 2){
-//            roomStatus = false;
-//        }
-//        return roomStatus;
-//    }
+    //will be used to validate that the user choice is allowed and is not a locked door
+    boolean checkRoom(){
+        boolean roomStatus = true;      //if open or available
+        if(myMaze[myChoice.x][myChoice.y].getStatus() == 2){
+            roomStatus = false;         //if the room is locked
+        }
+        return roomStatus;
+    }
 
-    private void lockRoom(){
+    //updates the status of the room by using the room's change status
+    void lockRoom(){
         myMaze[myChoice.x][myChoice.y].changeStatus(false);
     }
 
-    private void openRoom(){
+    //updates the status of the room by using the room's change status
+    void openRoom(){
         myMaze[myChoice.x][myChoice.y].changeStatus(true);
     }
 
-    private void updateChoice(int choice){
+    //choice would be from the scanner from main when choosing which rooms
+    void updateChoice(int choice){
         if (choice == 0){               //move up
-            myChoice = new Point(myPosition.x, (myPosition.y-1));
+//            myChoice = new Point(myPosition.x, (myPosition.y-1));
+            myChoice.y = (myChoice.y-1);
         } else if(choice == 1){         //move right
-            myChoice = new Point((myPosition.x+1), myPosition.y);
+//            myChoice = new Point((myPosition.x+1), myPosition.y);
+            myChoice.x = (myChoice.x+1);
         } else if(choice == 2){         //move down
-            myChoice = new Point(myPosition.x, (myPosition.y+1));
+//            myChoice = new Point(myPosition.x, (myPosition.y+1));
+            myChoice.y = (myChoice.y+1);
+
         } else {                        //move left
-            myChoice = new Point((myPosition.x-1), myPosition.y);
+//            myChoice = new Point((myPosition.x-1), myPosition.y);
+            myChoice.x = (myChoice.x-1);
         }
     }
 
-    private void movePosition(){
-        myPosition = myChoice;
+    //would call movePosition if the user decides to move that way so would practically update it by moving it to the choice
+    void movePosition(){
+        myPosition.x = myChoice.x;
+        myPosition.y = myChoice.y;
     }
 
     //creates the maze and fills it with rooms of * status
-    public void buildMaze(){
+    void buildMaze(){
         for(int i = 0; i < myMaze.length; i++){
             for(int j = 0; j < myMaze[i].length; j++){
                 myMaze[i][j] = new Room();
@@ -60,21 +69,26 @@ public class Maze {
         }
     }
 
-    public boolean solved(){
+    //the maze will be solved once myPosition is the same as myExit
+    boolean solved(){
         return ((myPosition.x == myExit.x)&&(myPosition.y == myExit.y));
     }
 
     //figure out the traversal stuff in order to check if it is solvable
-    public boolean solvable(){
+    boolean solvable(){
         return false;
     }
 
     //prints out the maze
     public String toString(){
         StringBuilder result = new StringBuilder();
-        for (Room[] rooms : myMaze) {
-            for (int j = 0; j < rooms.length; j++) {
-                result.append(rooms[j].toString());
+        for (int i = 0; i < myMaze.length; i++) {
+            for (int j = 0; j < myMaze[i].length; j++) {
+                if(myPosition.x == i && myPosition.y==j){
+                    result.append("U ");
+                    continue;
+                }
+                result.append(myMaze[i][j].toString());
             }
             result.append("\n");
         }
