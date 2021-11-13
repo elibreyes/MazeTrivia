@@ -56,6 +56,11 @@ public class Maze {
         }
     }
 
+    void resetRoom(){
+        myChoice.x = myPosition.x;
+        myChoice.y = myPosition.y;
+    }
+
     //would call movePosition if the user decides to move that way so would practically update it by moving it to the choice
     void movePosition(){
         myPosition.x = myChoice.x;
