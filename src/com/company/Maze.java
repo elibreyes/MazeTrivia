@@ -15,12 +15,14 @@ public class Maze {
         myPosition = new Point(0,0);
         myExit = new Point(3,3);
         myChoice = new Point(0,0);
+        //open up the entrance room
+        openRoom();
     }
 
     //will be used to validate that the user choice is allowed and is not a locked door
     boolean checkRoom(){
         boolean roomStatus = true;      //if open or available
-        if(myMaze[myChoice.x][myChoice.y].getStatus() == 2){
+        if(myMaze[myChoice.y][myChoice.x].getStatus() == 2){
             roomStatus = false;         //if the room is locked
         }
         return roomStatus;
@@ -28,12 +30,12 @@ public class Maze {
 
     //updates the status of the room by using the room's change status
     void lockRoom(){
-        myMaze[myChoice.x][myChoice.y].changeStatus(false);
+        myMaze[myChoice.y][myChoice.x].changeStatus(false);
     }
 
     //updates the status of the room by using the room's change status
     void openRoom(){
-        myMaze[myChoice.x][myChoice.y].changeStatus(true);
+        myMaze[myChoice.y][myChoice.x].changeStatus(true);
     }
 
     //choice would be from the scanner from main when choosing which rooms
@@ -84,7 +86,7 @@ public class Maze {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < myMaze.length; i++) {
             for (int j = 0; j < myMaze[i].length; j++) {
-                if(myPosition.x == i && myPosition.y==j){
+                if(myPosition.y == i && myPosition.x==j){
                     result.append("U ");
                     continue;
                 }
