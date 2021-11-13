@@ -26,15 +26,17 @@ public class Room {
         }
     }
 
-    //* represents available room, o represents opened room, and x represents locked room
     public String toString(){
         String result;
+        //* represents available room -> status = 0
         if(getStatus() == 0){
             result = "* ";
         }
+        //o represents opened room -> status = 1
         else if (getStatus() == 1){
             result = "o ";
         }
+        //x represents locked room -> status = 2
         else{
             result = "x ";
         }

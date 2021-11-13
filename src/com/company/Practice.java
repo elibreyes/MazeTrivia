@@ -34,9 +34,14 @@ public class Practice {
         //move up and lock the door
         m.updateChoice(0);
         m.lockRoom();
+        m.updateChoice(2);
         System.out.println("move up and lock the door");
         System.out.println(m);
 
-
+        m.updateChoice(2);
+        m.openRoom();
+        m.movePosition();
+        System.out.println("move down and open the door");
+        System.out.println(m);
     }
 }
