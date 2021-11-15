@@ -86,6 +86,10 @@ public class Maze {
         return false;
     }
 
+    Point getMyPosition() {
+        return myPosition;
+    }
+
     //prints out the maze
     public String toString(){
         StringBuilder result = new StringBuilder();
