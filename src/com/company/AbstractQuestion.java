@@ -20,5 +20,9 @@ public abstract class AbstractQuestion {
         return myAnswer;
     }
 
+    public boolean checkAnswer(String theAnswer) {
+        return myAnswer.equals(theAnswer);
+    }
+
 
 }
