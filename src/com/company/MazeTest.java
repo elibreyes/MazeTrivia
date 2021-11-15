@@ -6,7 +6,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MazeTest {
+public class MazeTest {
     @Test
     public void moveRightDown() {
         Maze testMaze = new Maze();
