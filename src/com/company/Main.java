@@ -8,13 +8,32 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args){
-
-        Maze m = new Maze();
         Scanner reader = new Scanner(System.in);
-        int choice = 0;
-        boolean pass = false;
+        System.out.println("Please enter the name of the previously saved game otherwise enter new");
+        String savedGame = reader.nextLine();
+        Maze m;
+        int choice;
+        boolean pass;
 
-        while(!m.solved()){
+        /**
+         * need to have a way to check if they want to load a game or if it is
+         * a new game, if it is a new game the following code will be fine otherwise
+         * need to use deserialization to pull up results
+         */
+
+        if(savedGame.equals("new")) {
+            m = new Maze();
+            choice = 0;
+            pass = false;
+
+        } else{
+            System.out.println("deserialize");
+            m = new Maze();
+            choice = 0;
+            pass = false;
+        }
+
+        while(!m.solved() /*&& m.solvable*/ ){
             System.out.println(m);
             System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left");
             choice = reader.nextInt();
