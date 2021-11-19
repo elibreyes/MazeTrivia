@@ -1,8 +1,9 @@
 package com.company;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Maze {
+public class Maze implements Serializable {
 
     private Point myExit;
     private Point myPosition;

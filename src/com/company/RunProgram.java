@@ -7,6 +7,12 @@ import java.util.Scanner;
  */
 public class RunProgram {
 
+    private static PrintMaze myPrintMaze;
+
+    public RunProgram(){
+        myPrintMaze = new PrintMaze();
+    }
+
     public static void run() {
         System.out.println("Please enter the name of the previously saved game otherwise enter new");
         Scanner myReader = new Scanner(System.in);
@@ -35,9 +41,10 @@ public class RunProgram {
         }
 
         while(!myMaze.solved() /*&& m.solvable*/ ){
-            System.out.println(myMaze);
+//            System.out.println(myMaze);
 
-            System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left");
+            myPrintMaze.print(myMaze);
+            System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left"/*|| 4 to exit*/);
             myChoice = myReader.nextInt();
             myMaze.updateChoice(myChoice);
             System.out.println("Did you get the question correct?");
@@ -51,6 +58,7 @@ public class RunProgram {
                 myMaze.resetRoom();
             }
         }
-        System.out.println(myMaze);
+        myPrintMaze.print(myMaze);
+//        System.out.println(myMaze);
     }
 }

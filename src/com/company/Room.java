@@ -1,9 +1,11 @@
 package com.company;
 
+import java.io.Serializable;
+
 /**
  * Create by elijahreyes on 11/10/21.
  */
-public class Room {
+public class Room implements Serializable {
     private int myStatus;
 
     // 0 will represent an untouched status
