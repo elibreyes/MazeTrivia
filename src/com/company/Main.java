@@ -7,8 +7,7 @@ package com.company;
 public class Main {
 
     public static void main(String[] args){
-        RunProgram myRunProgram = new RunProgram();
-        myRunProgram.run();
+        RunProgram.run();
     }
 
 }
