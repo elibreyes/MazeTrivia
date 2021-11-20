@@ -9,10 +9,11 @@ import java.util.Scanner;
  */
 public class RunProgram {
 
+    //method used to run the whole program that acts as a controller by itself
     public static void run() {
         Scanner myReader = new Scanner(System.in);
         String gameName = getName(myReader);
-        Maze myMaze = loadMaze(gameName);
+        Maze myMaze = loadMaze(gameName/*, myReader*/);
 
 
         while(!myMaze.solved() /*&& m.solvable*/ ){
@@ -29,11 +30,12 @@ public class RunProgram {
         }
     }
 
-    private static Maze loadMaze(String gameName){
+    //loads a maze based on if it is a new maze or needs to be deserialized
+    private static Maze loadMaze(String gameName/*, Scanner myReader*/){
         Maze myMaze = null;
+//        String myDimension;
         if(gameName.equals("new")) {
             myMaze = new Maze();
-
         } else {
             try {
                 ObjectInputStream in = new ObjectInputStream(new FileInputStream(gameName + ".txt"));
@@ -47,6 +49,7 @@ public class RunProgram {
         return myMaze;
     }
 
+    //method used from loadMaze to get the name of a potential loaded file
     private static String getName(Scanner theReader){
         String mySavedGame;
         boolean exists;
@@ -64,6 +67,7 @@ public class RunProgram {
         return mySavedGame;
     }
 
+    //method used to serialize and save the status of the instance of the maze
     private static void saveGame(Scanner myReader, Maze myMaze){
         System.out.println("Please enter the file name to be saved as");
         String gameName = myReader.next();
@@ -79,34 +83,44 @@ public class RunProgram {
         }
     }
 
+    //method used to run the game and play while accepting decisions
     private static void playing(Scanner myReader, Maze myMaze){
         PrintMaze.print(myMaze);
         System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
         String myChoice = myReader.next();
+
         if(myChoice.equals("4")){
             saveGame(myReader, myMaze);
             System.exit(0);
+
         } else if (myChoice.equals("3") || myChoice.equals("2") || myChoice.equals("1") || myChoice.equals("0")) {
             myMaze.updateChoice(Integer.parseInt(myChoice));
             if(myMaze.checkRoom()) {
+
                 if(myMaze.alreadyOpened()){
                     myMaze.movePosition();
                     return;
                 }
+
                 System.out.println("Did you get the question correct?");
                 boolean myPass = myReader.nextBoolean();
+
                 if (myPass) {
                     myMaze.openRoom();
                     myMaze.movePosition();
-                } else {
+                }
+
+                else {
                     myMaze.lockRoom();
                     myMaze.resetRoom();
                 }
+
                 return;
             }
             myMaze.resetRoom();
             System.out.println();
         }
+
         else{
             System.out.println("\nNot a valid choice try again\n");
         }

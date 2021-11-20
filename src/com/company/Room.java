@@ -19,6 +19,7 @@ public class Room implements Serializable {
     }
     
     // 1 represents opened room and 2 represents locked room
+    // changes the status of the room after answering a question
     void changeStatus(boolean pass){
         if(pass){
             myStatus = 1;
