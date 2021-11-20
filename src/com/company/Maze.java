@@ -22,11 +22,17 @@ public class Maze implements Serializable {
 
     //will be used to validate that the user choice is allowed and is not a locked door
     boolean checkRoom(){
-        boolean roomStatus = true;      //if open or available
-        if(myMaze[myChoice.y][myChoice.x].getStatus() == 2){
-            roomStatus = false;         //if the room is locked
+        boolean roomStatus = false;      //if open or available
+        if(withinRange()) {
+            if (myMaze[myChoice.y][myChoice.x].getStatus() == 0 || myMaze[myChoice.y][myChoice.x].getStatus() == 1) {
+                roomStatus = true;         //if the room is locked
+            }
         }
         return roomStatus;
+    }
+
+    private boolean withinRange(){
+        return myChoice.x >= 0 && myChoice.x <= myExit.x && myChoice.y >= 0 && myChoice.y <= myExit.y;
     }
 
     //updates the status of the room by using the room's change status
@@ -87,8 +93,9 @@ public class Maze implements Serializable {
         return false;
     }
 
-    Point getMyPosition() {
-        return myPosition;
+
+    boolean alreadyOpened(){
+        return myMaze[myChoice.y][myChoice.x].getStatus() == 1;
     }
 
     //prints out the maze
