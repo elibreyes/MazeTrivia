@@ -1,6 +1,6 @@
 package com.company;
 
-import java.io.File;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -17,7 +17,7 @@ public class RunProgram {
 
         int myChoice;
         boolean myPass;
-        Maze myMaze;
+        Maze myMaze = null;
 
         /**
          * need to have a way to check if they want to load a game or if it is
@@ -27,32 +27,51 @@ public class RunProgram {
 
         if(gameName.equals("new")) {
             myMaze = new Maze();
-            myChoice = 0;
-            myPass = false;
 
-        } else{
-            /* need to do some deserialization */
-            System.out.println("deserialize");
-            myMaze = new Maze();
-            myChoice = 0;
-            myPass = false;
+        } else {
+            try {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(gameName + ".txt"));
+                myMaze = (Maze)in.readObject();
+
+                /* need to do some deserialization */
+                System.out.println("deserialize");
+                in.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
 
         while(!myMaze.solved() /*&& m.solvable*/ ){
 
             PrintMaze.print(myMaze);
-            System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left"/*|| 4 to exit*/);
+            System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
             myChoice = myReader.nextInt();
-            myMaze.updateChoice(myChoice);
-            System.out.println("Did you get the question correct?");
-            myPass = myReader.nextBoolean();
-            if(myPass){
-                myMaze.openRoom();
-                myMaze.movePosition();
-            }
-            else{
-                myMaze.lockRoom();
-                myMaze.resetRoom();
+            if(myChoice==4){
+                System.out.println("Please enter the file name to be saved as");
+                gameName = myReader.next();
+                try {
+//                    System.out.println(gameName);
+                    FileOutputStream fout = new FileOutputStream(gameName + ".txt");
+                    ObjectOutputStream out = new ObjectOutputStream(fout);
+                    out.writeObject(myMaze);
+                    out.flush();
+                    out.close();
+                    System.out.println("serialized " + gameName + " as " + gameName);
+                    return;
+                }catch(Exception e){
+                    System.out.println(e);
+                }
+            }else {
+                myMaze.updateChoice(myChoice);
+                System.out.println("Did you get the question correct?");
+                myPass = myReader.nextBoolean();
+                if (myPass) {
+                    myMaze.openRoom();
+                    myMaze.movePosition();
+                } else {
+                    myMaze.lockRoom();
+                    myMaze.resetRoom();
+                }
             }
         }
         PrintMaze.print(myMaze);
@@ -65,10 +84,13 @@ public class RunProgram {
         do {
             System.out.println("Please enter the name of the previously saved game otherwise enter new");
             mySavedGame = theReader.nextLine();
+            if(mySavedGame.equals("new")){
+                break;
+            }
             File myFile = new File(mySavedGame + ".txt");
             exists = myFile.exists();
 
-        } while((!(mySavedGame.equals("new"))) || (!exists));
+        } while(!exists);
 
         return mySavedGame;
     }
