@@ -1,6 +1,14 @@
 package com.company;
 
+import org.sqlite.SQLiteDataSource;
+
 import java.io.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -85,6 +93,7 @@ public class RunProgram {
 
     //method used to run the game and play while accepting decisions
     private static void playing(Scanner myReader, Maze myMaze){
+        Random rand = new Random();
         PrintMaze.print(myMaze);
         System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
         String myChoice = myReader.next();
@@ -101,9 +110,92 @@ public class RunProgram {
                     myMaze.movePosition();
                     return;
                 }
+                boolean myPass = false;
+                int randomChoice = rand.nextInt(3);
+                SQLiteDataSource ds = null;
+                switch (randomChoice) {
+                    case 0 -> {
+                        TrueFalseQuestion tfq;
+                        try {
+                            ds = new SQLiteDataSource();
+                            ds.setUrl("jdbc:sqlite:TrueFalseQuestions.db");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        String query = "SELECT * FROM TrueFalseQuestions ORDER BY RANDOM() LIMIT 1";
+                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
+                            ResultSet rs = stmt.executeQuery(query);
 
-                System.out.println("Did you get the question correct?");
-                boolean myPass = myReader.nextBoolean();
+                            tfq = new TrueFalseQuestion(rs.getString("Question"), rs.getString("Answer"));
+                            System.out.println(tfq.getMyQuestion());
+                            String userInput = myReader.next();
+                            System.out.println(userInput);
+                            myPass = tfq.checkAnswer(userInput);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        break;
+                    }
+                    case 1 -> {
+                        ShortAnswerQuestion saq;
+                        try {
+                            ds = new SQLiteDataSource();
+                            ds.setUrl("jdbc:sqlite:ShortAnswerQuestions.db");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        String query = "SELECT * FROM ShortAnswerQuestions ORDER BY RANDOM() LIMIT 1";
+                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
+                            ResultSet rs = stmt.executeQuery(query);
+                            saq = new ShortAnswerQuestion(rs.getString("Question"), rs.getString("Answer"));
+                            System.out.println(saq.getMyQuestion());
+                            String userInput = myReader.next();
+                            System.out.println(userInput);
+                            myPass = saq.checkAnswer(userInput);
+                            myReader.nextLine();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        break;
+                    }
+                    case 2 -> {
+                        MultipleChoiceQuestion mcq;
+                        try {
+                            ds = new SQLiteDataSource();
+                            ds.setUrl("jdbc:sqlite:MultipleChoiceQuestions.db");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                        String query = "SELECT * FROM MultipleChoiceQuestions ORDER BY RANDOM() LIMIT 1";
+                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
+                            ResultSet rs = stmt.executeQuery(query);
+                            ArrayList<String> choices = new ArrayList<>();
+                            choices.add(rs.getString("Answer"));
+                            choices.add(rs.getString("Choice1"));
+                            choices.add(rs.getString("Choice2"));
+                            choices.add(rs.getString("Choice3"));
+                            mcq = new MultipleChoiceQuestion(rs.getString("Question"), rs.getString("Answer"), choices);
+                            System.out.println(mcq.getMyQuestion());
+                            System.out.println(mcq.getPossibleAnswers());
+                            String userInput = "";
+                            userInput+= myReader.nextLine();
+                            System.out.println(userInput);
+                            myPass = mcq.checkAnswer(userInput);
+                            myReader.nextLine();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            System.exit(0);
+                        }
+                    }
+                }
+
+                /*System.out.println("Did you get the question correct?");
+                boolean myPass = myReader.nextBoolean();*/
 
                 if (myPass) {
                     myMaze.openRoom();
