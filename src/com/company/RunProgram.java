@@ -96,14 +96,14 @@ public class RunProgram {
         Random rand = new Random();
         PrintMaze.print(myMaze);
         System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
-        String myChoice = myReader.next();
+        int myChoice = myReader.nextInt();
 
-        if(myChoice.equals("4")){
+        if(myChoice == 4){
             saveGame(myReader, myMaze);
             System.exit(0);
 
-        } else if (myChoice.equals("3") || myChoice.equals("2") || myChoice.equals("1") || myChoice.equals("0")) {
-            myMaze.updateChoice(Integer.parseInt(myChoice));
+        } else if (myChoice == 3 || myChoice == 2 || myChoice == 1 || myChoice == 0) {
+            myMaze.updateChoice(myChoice);
             if(myMaze.checkRoom()) {
 
                 if(myMaze.alreadyOpened()){
@@ -183,10 +183,10 @@ public class RunProgram {
                             System.out.println(mcq.getMyQuestion());
                             System.out.println(mcq.getPossibleAnswers());
                             String userInput = "";
+                            myReader.nextLine();
                             userInput+= myReader.nextLine();
                             System.out.println(userInput);
                             myPass = mcq.checkAnswer(userInput);
-                            myReader.nextLine();
                         } catch (SQLException e) {
                             e.printStackTrace();
                             System.exit(0);
