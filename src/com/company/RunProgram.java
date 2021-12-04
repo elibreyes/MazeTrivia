@@ -24,7 +24,7 @@ public class RunProgram {
         Maze myMaze = loadMaze(gameName/*, myReader*/);
 
 
-        while(!myMaze.solved() /*&& m.solvable*/ ){
+        while(!myMaze.solved() && myMaze.solvable() ){
             playing(myReader,myMaze);
 
         }
