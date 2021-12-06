@@ -1,12 +1,10 @@
 package com.company;
 
 public abstract class AbstractQuestion {
-    String myQuestion;
-    String myAnswer;
+    private String myQuestion;
+    private String myAnswer;
 
-    public AbstractQuestion() {
 
-    }
     public AbstractQuestion(String theQuestion, String theAnswer) {
         myQuestion = theQuestion;
         myAnswer = theAnswer;
