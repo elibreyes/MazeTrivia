@@ -13,15 +13,17 @@ import java.util.Scanner;
 
 
 /**
- * Create by elijahreyes on 11/18/21.
+ * Controller class that moves data around to be used and printed as necessary
  */
 public class RunProgram {
 
-    //method used to run the whole program that acts as a controller by itself
+    /**
+     * Controller method that calls necessary methods within the class to run the program
+     */
     public static void run() {
         Scanner myReader = new Scanner(System.in);
         String gameName = getName(myReader);
-        Maze myMaze = loadMaze(gameName/*, myReader*/);
+        Maze myMaze = loadMaze(gameName);
 
 
         while(!myMaze.solved() && myMaze.solvable() ){
@@ -38,10 +40,13 @@ public class RunProgram {
         }
     }
 
-    //loads a maze based on if it is a new maze or needs to be deserialized
-    private static Maze loadMaze(String gameName/*, Scanner myReader*/){
+    /**
+     * Deserialization method used to load previous game or create a new maze
+     * @param gameName name of the file user desires to play
+     * @return Maze object to be played
+     */
+    private static Maze loadMaze(String gameName){
         Maze myMaze = null;
-//        String myDimension;
         if(gameName.equals("new")) {
             myMaze = new Maze();
         } else {
@@ -57,7 +62,11 @@ public class RunProgram {
         return myMaze;
     }
 
-    //method used from loadMaze to get the name of a potential loaded file
+    /**
+     * Method used from loadMaze to get the name of a potential loaded file or a new file
+     * @param theReader scanner used to get the input for the name
+     * @return the name of the file to be played
+     */
     private static String getName(Scanner theReader){
         String mySavedGame;
         boolean exists;
@@ -75,7 +84,11 @@ public class RunProgram {
         return mySavedGame;
     }
 
-    //method used to serialize and save the status of the instance of the maze
+    /**
+     * Serializes and save the status of the instance of the maze
+     * @param myReader scanner used to determine what file name to put it under
+     * @param myMaze state of the map to be saved
+     */
     private static void saveGame(Scanner myReader, Maze myMaze){
         System.out.println("Please enter the file name to be saved as");
         String gameName = myReader.next();
@@ -91,7 +104,11 @@ public class RunProgram {
         }
     }
 
-    //method used to run the game and play while accepting decisions
+    /**
+     * Method used to run the game and play while accepting decisions
+     * @param myReader scanner used to determine movements and also answer of the choices
+     * @param myMaze original status of the maze either previsouly loaded or new
+     */
     private static void playing(Scanner myReader, Maze myMaze){
         Random rand = new Random();
         PrintMaze.print(myMaze);
