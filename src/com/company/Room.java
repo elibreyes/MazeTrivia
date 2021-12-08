@@ -1,4 +1,5 @@
 package com.company;
+
 import java.io.Serializable;
 
 /**
@@ -14,15 +15,17 @@ public class Room implements Serializable {
     /**
      * private enum Status is an enum to hold the different room status
      */
-    private enum Status{
+    private enum Status {
         AVAILABLE, OPENED, CLOSED
     }
 
     /**
      * Standard constructor in which we set our status to be available
      */
-    public Room(){myStatus = Status.AVAILABLE.ordinal();
+    public Room() {
+        myStatus = Status.AVAILABLE.ordinal();
     }
+
 
     /**
      * Standard getter method used to retrieve the status

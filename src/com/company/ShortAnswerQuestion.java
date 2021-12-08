@@ -9,6 +9,4 @@ public class ShortAnswerQuestion extends AbstractQuestion{
     }
 
 
-
-
 }

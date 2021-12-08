@@ -15,6 +15,10 @@ public class MultipleChoiceQuestion extends AbstractQuestion {
     public ArrayList<String> getPossibleAnswers() {
         return myPossibleAnswers;
     }
+
+    public String getMyQuestion() {
+        return super.getMyQuestion() + "\n" + getPossibleAnswers().toString();
+    }
 }
 
 
