@@ -146,8 +146,8 @@ public class Maze implements Serializable {
 	}
 
 	/**
-	 *
-	 * @return
+	 * Traverses the maze until the end is reached or becomes unreachable
+	 * @return boolean value of the maze being solvable
 	 */
 	boolean solvable() {
 		boolean canWin = move(myTraversalGraph, myPosition.y, myPosition.x);
@@ -157,7 +157,8 @@ public class Maze implements Serializable {
 	}
 
 	/**
-	 *
+	 * Builds a char[] representation of the current state of the maze to 
+	 * allow for simpler traversal testing
 	 */
 	private void buildTraversalGraph(){
 		for (int row = 0; row < myMaze.length; row++) {
@@ -173,39 +174,40 @@ public class Maze implements Serializable {
 
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theRow
-	 * @param theCol
-	 * @return
+	 * The driver of the maze traversal algorithm tests for a valid user move, and if so, marks the room 
+	 * as visited and returns a boolean value of the maze being solvable
+	 * @param theMaze char[][] representation of the maze and its current state
+	 * @param theRow current row the user is in
+	 * @param theCol current column the user is is
+	 * @return the maze is solvable or not
 	 */
-	private static boolean move(char[][] theMaze, final int theRow, final int theCol) {
+	private static boolean move(final char[][] theMaze, final int theRow, final int theCol) {
 		boolean success = false;
 		if (validMove(theMaze, theRow, theCol)) {
-			markVisited(theMaze, theRow, theCol); // drop a bread crumb to track we've been here
+			markVisited(theMaze, theRow, theCol); 
 			if (atExit(theMaze, theRow, theCol))
 				return true;
-			success = move(theMaze, theRow + 1, theCol); // down
+			success = move(theMaze, theRow + 1, theCol); 
 			if (!success)
-				success = move(theMaze, theRow, theCol + 1); // right
+				success = move(theMaze, theRow, theCol + 1); 
 			if (!success)
-				success = move(theMaze, theRow - 1, theCol); // up
+				success = move(theMaze, theRow - 1, theCol); 
 			if (!success)
-				success = move(theMaze, theRow, theCol - 1); // left
+				success = move(theMaze, theRow, theCol - 1); 
 			if (!success)
 				markDeadEnd(theMaze, theRow, theCol);
 
 		}
-
 		return success;
 	}
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theGraph
+	 * Resets each 'Room' in the char[][] representation to not visited,
+	 * otherwise the game will end after 1 move
+	 * @param theMaze the current state of the maze
+	 * @param theGraph the current state of the char[][] representation of the maze
 	 */
-	private static void resetToNonVisited(Room[][] theMaze, char[][] theGraph) {
+	private static void resetToNonVisited(final Room[][] theMaze, char[][] theGraph) {
 		for (int row = 0; row < theGraph.length; row++) {
 			for (int col = 0; col < theGraph[0].length; col++) {
 				if (theMaze[row][col].getStatus() == 2) {
@@ -218,47 +220,46 @@ public class Maze implements Serializable {
 	}
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theRow
-	 * @param theCol
+	 * This method places a unique marker in the char[][] to indicate the only available route
+	 * is backwards
+	 * @param theMaze char[][] representation of the current state of the maze
+	 * @param theRow the row the user is located in
+	 * @param theCol the column the user is located in
 	 */
 	private static void markDeadEnd(char[][] theMaze, final int theRow, final int theCol) {
 		theMaze[theRow][theCol] = 'd';
 	}
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theRow
-	 * @param theCol
+	 * This method places a unique marker in the char[][] to indicate the position has been visited
+	 * @param theMaze char[][] representation of the current state of the maze
+	 * @param theRow theRow the row the user is located in
+	 * @param theCol theCol the column the user is located in
 	 */
 	private static void markVisited(char[][] theMaze, final int theRow, final int theCol) {
 		theMaze[theRow][theCol] = '*';
 	}
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theRow
-	 * @param theCol
-	 * @return
+	 * This method calculates whether or not the user is at the end of the maze
+	 * @param theMaze theMaze char[][] representation of the current state of the maze
+	 * @param theRow theRow theRow the row the user is located in
+	 * @param theCol theCol theCol the column the user is located in
+	 * @return boolean value of the end being reached
 	 */
 	private static boolean atExit(final char[][] theMaze, final int theRow, final int theCol) {
 		return theRow == theMaze.length - 1 && theCol == theMaze[theRow].length - 1;
 	}
 
 	/**
-	 *
-	 * @param theMaze
-	 * @param theRow
-	 * @param theCol
-	 * @return
+	 * This method determines if the user's choice would take them outside the maze or to a visited room
+	 * @param theMaze theMaze char[][] representation of the current state of the maze
+	 * @param theRow theRow theRow theRow the row the user is located in
+	 * @param theCol theCol theCol theCol the column the user is located in
+	 * @return boolean value of the choice being valid or not
 	 */
-	private static boolean validMove(char[][] theMaze, final int theRow, final int theCol) {
-		// inside maze and non visited room
+	private static boolean validMove(final char[][] theMaze, final int theRow, final int theCol) {
 		return theRow >= 0 && theRow < theMaze.length && theCol >= 0 && theCol < theMaze[theRow].length && theMaze[theRow][theCol] == '.';
-
 	}
 
 	/**

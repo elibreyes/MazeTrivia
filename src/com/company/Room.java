@@ -39,7 +39,7 @@ public class Room implements Serializable {
      * Changes the status of the room based on if the question was correct
      * @param pass boolean to determine if the question was answered correctly
      */
-    void changeStatus(boolean pass){
+    void changeStatus(final boolean pass){
         if(pass){
             myStatus = Status.OPENED.ordinal();
         }
