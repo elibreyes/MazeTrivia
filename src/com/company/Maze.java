@@ -12,14 +12,14 @@ public class Maze implements Serializable {
 	 * private enum Status is an enum to hold the different room status
 	 */
 	private enum Status{
-		AVAILABLE, OPEN
+		AVAILABLE, OPEN, CLOSED
 	}
 
 	/**
 	 * private enum Location is an enum to hold the different movements
 	 */
 	private enum Location{
-		UP, RIGHT, DOWN
+		UP, RIGHT, DOWN, LEFT
 	}
 
 	/**

@@ -111,7 +111,9 @@ public class RunProgram {
      */
     private static void playing(Scanner myReader, Maze myMaze){
         PrintMaze.print(myMaze);
-        System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
+        String options = options(myMaze);
+//        System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
+        System.out.println(options);
         int myChoice = myReader.nextInt();
 
         if(myChoice == 4){
@@ -310,6 +312,39 @@ public class RunProgram {
             }
         }
         return false;
+    }
+
+    private static String options(Maze theMaze){
+        StringBuilder str = new StringBuilder();
+        str.append("Where would you like to move\n");
+
+        theMaze.updateChoice(0);
+        if(theMaze.checkRoom()){
+            str.append("| 0 is up |");
+        }
+
+        theMaze.resetRoom();
+        theMaze.updateChoice(1);
+        if(theMaze.checkRoom()){
+            str.append("| 1 is right |");
+        }
+
+        theMaze.resetRoom();
+        theMaze.updateChoice(2);
+        if(theMaze.checkRoom()){
+            str.append("| 2 is down |");
+        }
+
+        theMaze.resetRoom();
+        theMaze.updateChoice(3);
+        if(theMaze.checkRoom()){
+            str.append("| 3 is left |");
+            theMaze.resetRoom();
+        }
+
+        theMaze.resetRoom();
+        str.append("| 4 to exit");
+        return str.toString();
     }
 
 }
