@@ -21,7 +21,7 @@ public class TriviaGui {
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RunProgram.run();
+                //RunProgram.run();
             }
         });
     }
