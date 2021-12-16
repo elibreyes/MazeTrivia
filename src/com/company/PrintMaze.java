@@ -9,7 +9,7 @@ public class PrintMaze {
      * Prints out the content of the maze
      * @param theMaze the instance of the maze
      */
-    public static void print(Maze theMaze){
+    public static void print(final Maze theMaze){
         System.out.println(theMaze);
     }
 

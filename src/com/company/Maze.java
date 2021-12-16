@@ -34,6 +34,11 @@ public class Maze implements Serializable {
 	private Point myChoice;
 	private Room[][] myMaze;
 	private char[][] myTraversalGraph;
+	private static final String RESET = "\u001B[0m";
+	private static final String YELLOW = "\u001B[33m";
+	private static final String RED = "\u001B[31m";
+	private static final String GREEN = "\u001B[32m";
+	private static final String BLUE = "\u001B[34m";
 
 	/**
 	 * Constructor that creates a 4x4 2D maze and sets the
@@ -94,10 +99,18 @@ public class Maze implements Serializable {
 	}
 
 	/**
+	 *  Returns the user's position in the maze
+	 * @return Point representing user's position in the maze
+	 */
+	protected Point getMyPosition() {
+		return myPosition;
+	}
+
+	/**
 	 * Updates choice based on what was decided from scanner and compares to Location enum
 	 * @param choice numeric choice from scanner which compares to the enum to decide
 	 */
-	void updateChoice(int choice) {
+	void updateChoice(final int choice) {
 		if (choice == Location.UP.ordinal()) {
 			myChoice.y = (myChoice.y - 1);
 		} else if (choice == Location.RIGHT.ordinal()) {
@@ -226,7 +239,7 @@ public class Maze implements Serializable {
 	 * @param theRow the row the user is located in
 	 * @param theCol the column the user is located in
 	 */
-	private static void markDeadEnd(char[][] theMaze, final int theRow, final int theCol) {
+	private static void markDeadEnd(final char[][] theMaze, final int theRow, final int theCol) {
 		theMaze[theRow][theCol] = 'd';
 	}
 
@@ -236,7 +249,7 @@ public class Maze implements Serializable {
 	 * @param theRow theRow the row the user is located in
 	 * @param theCol theCol the column the user is located in
 	 */
-	private static void markVisited(char[][] theMaze, final int theRow, final int theCol) {
+	private static void markVisited(final char[][] theMaze, final int theRow, final int theCol) {
 		theMaze[theRow][theCol] = '*';
 	}
 
@@ -278,7 +291,7 @@ public class Maze implements Serializable {
 		for (int i = 0; i < myMaze.length; i++) {
 			for (int j = 0; j < myMaze[i].length; j++) {
 				if (myPosition.y == i && myPosition.x == j) {
-					result.append("U ");
+					result.append(getU());
 					continue;
 				}
 				result.append(myMaze[i][j].toString());

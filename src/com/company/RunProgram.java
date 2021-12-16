@@ -45,7 +45,7 @@ public class RunProgram {
      * @param gameName name of the file user desires to play
      * @return Maze object to be played
      */
-    private static Maze loadMaze(String gameName){
+    private static Maze loadMaze(final String gameName){
         Maze myMaze = null;
         if(gameName.equals("new")) {
             myMaze = new Maze();
@@ -67,7 +67,7 @@ public class RunProgram {
      * @param theReader scanner used to get the input for the name
      * @return the name of the file to be played
      */
-    private static String getName(Scanner theReader){
+    private static String getName(final Scanner theReader){
         String mySavedGame;
         boolean exists;
         do {
@@ -109,7 +109,7 @@ public class RunProgram {
      * @param myReader scanner used to determine movements and also answer of the choices
      * @param myMaze original status of the maze either previously loaded or new
      */
-    private static void playing(Scanner myReader, Maze myMaze){
+    private static void playing(final Scanner myReader, final Maze myMaze){
         PrintMaze.print(myMaze);
         String options = options(myMaze);
 //        System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
@@ -129,87 +129,6 @@ public class RunProgram {
                     return;
                 }
                 boolean myPass;
-                /*SQLiteDataSource ds = null;
-
-                switch (randomChoice) {
-                    case 0 -> {
-                        TrueFalseQuestion tfq;
-                        try {
-                            ds = new SQLiteDataSource();
-                            ds.setUrl("jdbc:sqlite:TrueFalseQuestions.db");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                        String query = "SELECT * FROM TrueFalseQuestions ORDER BY RANDOM() LIMIT 1";
-                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
-                            ResultSet rs = stmt.executeQuery(query);
-
-                            tfq = new TrueFalseQuestion(rs.getString("Question"), rs.getString("Answer"));
-                            System.out.println(tfq.getMyQuestion());
-                            String userInput = myReader.next();
-                            System.out.println(userInput);
-                            myPass = tfq.checkAnswer(userInput);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                        break;
-                    }
-                    case 1 -> {
-                        ShortAnswerQuestion saq;
-                        try {
-                            ds = new SQLiteDataSource();
-                            ds.setUrl("jdbc:sqlite:ShortAnswerQuestions.db");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                        String query = "SELECT * FROM ShortAnswerQuestions ORDER BY RANDOM() LIMIT 1";
-                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
-                            ResultSet rs = stmt.executeQuery(query);
-                            saq = new ShortAnswerQuestion(rs.getString("Question"), rs.getString("Answer"));
-                            System.out.println(saq.getMyQuestion());
-                            String userInput = myReader.next();
-                            System.out.println(userInput);
-                            myPass = saq.checkAnswer(userInput);
-                            myReader.nextLine();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                        break;
-                    }
-                    case 2 -> {
-                        MultipleChoiceQuestion mcq;
-                        try {
-                            ds = new SQLiteDataSource();
-                            ds.setUrl("jdbc:sqlite:MultipleChoiceQuestions.db");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                        String query = "SELECT * FROM MultipleChoiceQuestions ORDER BY RANDOM() LIMIT 1";
-                        try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
-                            ResultSet rs = stmt.executeQuery(query);
-                            ArrayList<String> choices = new ArrayList<>();
-                            choices.add(rs.getString("Answer"));
-                            choices.add(rs.getString("Choice1"));
-                            choices.add(rs.getString("Choice2"));
-                            choices.add(rs.getString("Choice3"));
-                            mcq = new MultipleChoiceQuestion(rs.getString("Question"), rs.getString("Answer"), choices);
-                            System.out.println(mcq.getMyQuestion());
-                            String userInput = "";
-                            myReader.nextLine();
-                            userInput+= myReader.nextLine();
-                            System.out.println(userInput);
-                            myPass = mcq.checkAnswer(userInput);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            System.exit(0);
-                        }
-                    }
-                }*/
                 myPass = giveQuestion(myReader);
                 if (myPass) {
                     System.out.println("Answer was correct!");
@@ -231,7 +150,12 @@ public class RunProgram {
         }
     }
 
-    private static boolean giveQuestion(Scanner theReader) {
+    /**
+     *
+     * @param theReader
+     * @return
+     */
+    private static boolean giveQuestion(final Scanner theReader) {
         Random rand = new Random();
         int randomChoice = rand.nextInt(3);
         SQLiteDataSource ds = null;
@@ -252,7 +176,7 @@ public class RunProgram {
                     tfq = new TrueFalseQuestion(rs.getString("Question"), rs.getString("Answer"));
                     System.out.println(tfq.getMyQuestion());
                     String userInput = theReader.next();
-                    System.out.println(userInput);
+                    //System.out.println(userInput);
                     return tfq.checkAnswer(userInput);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -274,7 +198,7 @@ public class RunProgram {
                     saq = new ShortAnswerQuestion(rs.getString("Question"), rs.getString("Answer"));
                     System.out.println(saq.getMyQuestion());
                     String userInput = theReader.next();
-                    System.out.println(userInput);
+                    //System.out.println(userInput);
                     return saq.checkAnswer(userInput);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -303,7 +227,7 @@ public class RunProgram {
                     String userInput = "";
                     theReader.nextLine();
                     userInput+= theReader.nextLine();
-                    System.out.println(userInput);
+                    //System.out.println(userInput);
                     return mcq.checkAnswer(userInput);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -314,7 +238,12 @@ public class RunProgram {
         return false;
     }
 
-    private static String options(Maze theMaze){
+    /**
+     *
+     * @param theMaze
+     * @return
+     */
+    private static String options(final Maze theMaze){
         StringBuilder str = new StringBuilder();
         str.append("Where would you like to move\n");
 
