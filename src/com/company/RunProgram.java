@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -279,9 +278,9 @@ public class RunProgram {
     }
 
     /**
-     *
-     * @param theMaze
-     * @return
+     * Builds the options the user has that are available as a String
+     * @param theMaze the maze that is checked for available moves
+     * @return a String that shows the available options
      */
     private static String options(final Maze theMaze){
         StringBuilder str = new StringBuilder();

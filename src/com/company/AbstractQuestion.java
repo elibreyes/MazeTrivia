@@ -40,9 +40,9 @@ public abstract class AbstractQuestion {
     }
 
     /**
-     * Checks whether or not the given answer is equal
+     * Checks whether the given answer is equal
      * @param theAnswer the given answer
-     * @return a boolean of whether or not the answer is the same
+     * @return a boolean of whether the answer is the same
      */
     public boolean checkAnswer(String theAnswer) {
         return myAnswer.equals(theAnswer);
