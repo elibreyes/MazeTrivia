@@ -2,12 +2,16 @@ package com.company;
 
 import org.sqlite.SQLiteDataSource;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -138,6 +142,7 @@ public class RunProgram {
                 myPass = giveQuestion(myReader);
                 if (myPass) {
                     System.out.println("Answer was correct!");
+                    RunProgram.hooraySound();
                     myMaze.openRoom();
                     myMaze.movePosition();
                 }
@@ -153,6 +158,18 @@ public class RunProgram {
         }
         else{
             System.out.println("\nNot a valid choice try again\n");
+        }
+    }
+    private static void hooraySound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hooray.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+            // If you want the sound to loop infinitely, then put: clip.loop(Clip.LOOP_CONTINUOUSLY);
+            // If you want to stop the sound, then use clip.stop();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
