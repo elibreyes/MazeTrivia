@@ -8,18 +8,21 @@ import java.io.Serializable;
  */
 public class Maze implements Serializable {
 
+
+
+
 	/**
 	 * private enum Status is an enum to hold the different room status
 	 */
 	private enum Status{
-		AVAILABLE, OPEN, CLOSED
+		AVAILABLE, OPEN
 	}
 
 	/**
 	 * private enum Location is an enum to hold the different movements
 	 */
 	private enum Location{
-		UP, RIGHT, DOWN, LEFT
+		UP, RIGHT, DOWN
 	}
 
 	/**
@@ -28,6 +31,11 @@ public class Maze implements Serializable {
 	 * myChoice holds the desired location to move to
 	 * myMaze holds the instance of the maze
 	 * myTraversalGraph holds a traversable graph to solve
+	 * Reset holds the color code for standard color
+	 * Yellow holds the color code for yellow
+	 * Red holds the color code for red
+	 * Green holds the color code for green
+	 * Blue holds the color code for blue
 	 */
 	private Point myExit;
 	private Point myPosition;
@@ -294,10 +302,52 @@ public class Maze implements Serializable {
 					result.append(getU());
 					continue;
 				}
-				result.append(myMaze[i][j].toString());
+				if (myMaze[i][j].toString().equals("x ")) {
+					result.append(getX());
+					continue;
+				}
+				if (myMaze[i][j].toString().equals("o ")) {
+					result.append(getO());
+					continue;
+				}
+				if (myMaze[i][j].toString().equals("* ")) {
+					result.append(getStar());
+				}
 			}
 			result.append("\n");
 		}
 		return result.toString();
+	}
+
+	/**
+	 * getter methods for each character to change color
+	 * @return red x
+	 */
+	private String getX(){
+		return RED + "x " + RESET;
+	}
+
+	/**
+	 * getter methods for each character to change color
+	 * @return green o
+	 */
+	private String getO(){
+		return GREEN + "o " + RESET;
+	 }
+
+	/**
+	 * getter methods for each character to change color
+	 * @return yellow U
+	 */
+	private String getU(){
+		return YELLOW + "U " + RESET;
+	}
+
+	/**
+	 * getter methods for each character to change color
+	 * @return blue *
+	 */
+	private String getStar(){
+		return BLUE + "* " + RESET;
 	}
 }

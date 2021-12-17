@@ -89,7 +89,7 @@ public class RunProgram {
      * @param myReader scanner used to determine what file name to put it under
      * @param myMaze state of the map to be saved
      */
-    private static void saveGame(Scanner myReader, Maze myMaze){
+    private static void saveGame(final Scanner myReader, final Maze myMaze){
         System.out.println("Please enter the file name to be saved as");
         String gameName = myReader.next();
         try {
@@ -112,7 +112,6 @@ public class RunProgram {
     private static void playing(final Scanner myReader, final Maze myMaze){
         PrintMaze.print(myMaze);
         String options = options(myMaze);
-//        System.out.println("Where would you like to move\n0 is up || 1 is right || 2 is down || 3 is left || 4 to exit");
         System.out.println(options);
         int myChoice = myReader.nextInt();
 
@@ -120,7 +119,14 @@ public class RunProgram {
             saveGame(myReader, myMaze);
             System.exit(0);
 
-        } else if (myChoice == 3 || myChoice == 2 || myChoice == 1 || myChoice == 0) {
+        }
+        else if(myChoice == 5){
+            PrintMaze.rules();
+        }
+        else if(myChoice == 6){
+            PrintMaze.about();
+        }
+        else if (myChoice == 3 || myChoice == 2 || myChoice == 1 || myChoice == 0) {
             myMaze.updateChoice(myChoice);
             if(myMaze.checkRoom()) {
 
@@ -272,7 +278,11 @@ public class RunProgram {
         }
 
         theMaze.resetRoom();
-        str.append("| 4 to exit");
+        str.append("| 4 to exit || 5 for instructions || 6 for about\n");
+        str.append("\u001B[31mx\u001B[0m" + " = locked door " +
+                "|| \u001B[32mo\u001B[0m" + " = opened doors " +
+                "|| \u001B[34m*\u001B[0m" + " = available doors " +
+                "|| \u001B[33mU\u001B[0m" + " = user");
         return str.toString();
     }
 
