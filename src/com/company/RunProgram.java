@@ -142,12 +142,13 @@ public class RunProgram {
                 myPass = giveQuestion(myReader);
                 if (myPass) {
                     System.out.println("Answer was correct!");
-                    RunProgram.hooraySound();
+                    hooraySound();
                     myMaze.openRoom();
                     myMaze.movePosition();
                 }
                 else {
                     System.out.println("Answer was wrong!");
+                    awwSound();
                     myMaze.lockRoom();
                     myMaze.resetRoom();
                 }
@@ -160,23 +161,39 @@ public class RunProgram {
             System.out.println("\nNot a valid choice try again\n");
         }
     }
+
+    /**
+     * Plays a sound file when a question is answered correctly
+     */
     private static void hooraySound() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hooray.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
-            // If you want the sound to loop infinitely, then put: clip.loop(Clip.LOOP_CONTINUOUSLY);
-            // If you want to stop the sound, then use clip.stop();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     /**
-     *
-     * @param theReader
-     * @return
+     * Plays a sound file when a question is answered wrong
+     */
+    private static void awwSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("aww.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates a question where the user attempts to answer, returns true or false if they get it right or wrong
+     * @param theReader scanner used to read the user's answer
+     * @return a boolean if they answer right or wrong
      */
     private static boolean giveQuestion(final Scanner theReader) {
         Random rand = new Random();
